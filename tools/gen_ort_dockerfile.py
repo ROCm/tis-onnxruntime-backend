@@ -327,7 +327,7 @@ RUN (command -v curl >/dev/null 2>&1 || (apt-get update && apt-get install -y --
 #
 ARG ROCMLIR_REPO={}
 ARG ROCMLIR_COMMIT={}
-RUN pip3 install --no-cache-dir ninja && \\
+RUN pip3 install --no-cache-dir ninja pybind11 && \\
     ROCM_CLANGXX=""; for c in /opt/rocm/llvm/bin/clang++ /opt/rocm/lib/llvm/bin/clang++; do if [ -x "$c" ]; then ROCM_CLANGXX="$c"; break; fi; done && \\
     CC_ARGS=""; if [ -n "$ROCM_CLANGXX" ]; then CC_ARGS="-DCMAKE_CXX_COMPILER=$ROCM_CLANGXX -DCMAKE_C_COMPILER=${{ROCM_CLANGXX%++}}"; fi && \\
     echo "Building rocMLIR ${{ROCMLIR_COMMIT}} (C++ compiler: ${{ROCM_CLANGXX:-<system default>}})" && \\
@@ -336,6 +336,7 @@ RUN pip3 install --no-cache-dir ninja && \\
     git fetch --depth 1 origin ${{ROCMLIR_COMMIT}} && \\
     git checkout --detach FETCH_HEAD && \\
     mkdir -p build && cd build && \\
+    PYBIND11_DIR="$(python3 -m pybind11 --cmakedir 2>/dev/null)"; if [ -n "$PYBIND11_DIR" ]; then CC_ARGS="$CC_ARGS -Dpybind11_DIR=$PYBIND11_DIR"; fi && \\
     cmake -G Ninja .. -DCMAKE_BUILD_TYPE=Release -DBUILD_FAT_LIBROCKCOMPILER=On -DLLVM_INCLUDE_TESTS=Off $CC_ARGS 2>&1 | tee /tmp/rocmlir_cmake.log && \\
     ninja 2>&1 | tee /tmp/rocmlir_build.log && \\
     cmake --install . --prefix /opt/rocmlir && \\
