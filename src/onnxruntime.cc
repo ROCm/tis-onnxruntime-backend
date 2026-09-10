@@ -48,6 +48,12 @@
 #include <mutex>
 #include <vector>
 
+#ifdef TRITON_ENABLE_ROCM
+#include <hip/hip_runtime_api.h>
+using cudaStream_t = hipStream_t;
+#define CudaStream RocmStream
+#endif  // TRITON_ENABLE_ROCM
+
 #include "onnxruntime_loader.h"
 #include "onnxruntime_utils.h"
 #include "triton/backend/backend_common.h"
