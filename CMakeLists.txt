@@ -149,9 +149,9 @@ set(TRITON_ONNX_TENSORRT_REPO_TAG "" CACHE STRING "Tag for onnx-tensorrt repo")
 set(TRT_VERSION "" CACHE STRING "TRT version for this build.")
 set(TRITON_ONNXRUNTIME_LIB_PATHS "" CACHE PATH "Paths to ONNXRuntime libraries")
 
-set(TRITON_REPO_ORGANIZATION "https://github.com/ROCm" CACHE STRING "Git repository to pull from")
-set(TRITON_BACKEND_REPO_TAG "rocm7.2_r25.12" CACHE STRING "Tag for ROCm/triton-inference-server-backend repo")
-set(TRITON_CORE_REPO_TAG "rocm7.2_r25.12" CACHE STRING "Tag for ROCm/triton-inference-server-core repo")
+set(TRITON_REPO_ORGANIZATION "https://github.com/triton-inference-server" CACHE STRING "Git repository to pull from")
+set(TRITON_BACKEND_REPO_TAG "rocm10.0.0_r26.09" CACHE STRING "Tag for AMD-Ecosystem/triton-inference-server-backend repo")
+set(TRITON_CORE_REPO_TAG "rocm10.0.0_r26.09" CACHE STRING "Tag for AMD-Ecosystem/triton-inference-server-core repo")
 set(TRITON_COMMON_REPO_TAG "main" CACHE STRING "Tag for triton-inference-server/common repo") # unchanged for ROCm
 
 # Use C++17 standard as Triton's minimum required.
@@ -254,13 +254,13 @@ FetchContent_Declare(
 if(${TRITON_ENABLE_ROCM})
   FetchContent_Declare(
     repo-core
-    GIT_REPOSITORY https://github.com/ROCm/triton-inference-server-core.git
+    GIT_REPOSITORY https://github.com/AMD-Ecosystem/triton-inference-server-core.git
     GIT_TAG ${TRITON_CORE_REPO_TAG}
     GIT_SHALLOW ON
   )
   FetchContent_Declare(
     repo-backend
-    GIT_REPOSITORY https://github.com/ROCm/triton-inference-server-backend.git
+    GIT_REPOSITORY https://github.com/AMD-Ecosystem/triton-inference-server-backend.git
     GIT_TAG ${TRITON_BACKEND_REPO_TAG}
     GIT_SHALLOW ON
   )
